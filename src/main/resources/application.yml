@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/vote_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password: 123456
+    druid:
+      initial-size: 5
+      min-idle: 10
+      max-active: 20
+      keep-alive: true
+      min-evictable-idle-time-millis: 600000
+      max-evictable-idle-time-millis: 900000
+      time-between-eviction-runs-millis: 2000
+      max-wait: 800
+      connect-properties.socketTimeout: 3000
+      connect-properties.connectTimeout: 1200
+      phy-max-use-count: 1000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false

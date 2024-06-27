@@ -1,0 +1,1 @@
+{"test":"var value = #value_str, result;\n\nvar val = [1, 2, 3]\n"}
