@@ -37,6 +37,8 @@ public class VerifyController {
         } else {
             keys = Arrays.asList(object.keySet().toArray(new String[0]));
         }
+        // init data
+        DataUtil.setInitData(object);
 
         for (String key : keys) {
             FieldConfig config = FieldConfigUtil.fieldConfigs.get(key);

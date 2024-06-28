@@ -5,6 +5,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.axm.verify.entity.FieldConfig;
 import com.axm.verify.mapper.ValueMapper;
 import com.axm.verify.service.FieldVerifyService;
+import com.axm.verify.utils.DataUtil;
 import com.axm.verify.utils.ErrorUtil;
 import com.axm.verify.utils.VerifyUtil;
 import org.springframework.stereotype.Service;
@@ -76,7 +77,8 @@ public class NumberVerifyServiceImpl implements FieldVerifyService {
     private void valueInFromSql(BigDecimal value, FieldConfig config) {
         if (config.getValueInSql() == null) return;
         ValueMapper mapper = SpringUtil.getBean(ValueMapper.class);
-        List<BigDecimal> list = mapper.valueInForNumber(config.getValueInSql());
+        String sql = DataUtil.replaceSalDynamicKey(config.getValueInSql());
+        List<BigDecimal> list = mapper.valueInForNumber(sql);
         if (!list.contains(value)) {
             ErrorUtil.addError(config.getKey() + " 字段值不在指定范围内，[" + list + "]");
         }
@@ -105,6 +107,7 @@ public class NumberVerifyServiceImpl implements FieldVerifyService {
 
     private BigDecimal valFormSql(String sql) {
         ValueMapper mapper = SpringUtil.getBean(ValueMapper.class);
+        sql = DataUtil.replaceSalDynamicKey(sql);
         return mapper.valueForNumber(sql);
     }
 

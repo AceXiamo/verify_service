@@ -1,13 +1,12 @@
 package com.axm.verify.service.impl;
 
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.axm.verify.entity.FieldConfig;
 import com.axm.verify.mapper.ValueMapper;
 import com.axm.verify.service.FieldVerifyService;
+import com.axm.verify.utils.DataUtil;
 import com.axm.verify.utils.ErrorUtil;
-import com.axm.verify.utils.FieldConfigUtil;
 import com.axm.verify.utils.VerifyUtil;
 import org.springframework.stereotype.Service;
 
@@ -119,7 +118,8 @@ public class StringVerifyServiceImpl implements FieldVerifyService {
     private void valueInFromSql(String value, FieldConfig config) {
         if (StrUtil.isEmpty(config.getValueInSql())) return;
         ValueMapper mapper = SpringUtil.getBean(ValueMapper.class);
-        List<String> list = mapper.valueInForString(config.getValueInSql());
+        String sql = DataUtil.replaceSalDynamicKey(config.getValueInSql());
+        List<String> list = mapper.valueInForString(sql);
         if (!list.contains(value)) {
             ErrorUtil.addError(config.getKey() + " 字段值不在指定范围内，[" + String.join(",", list) + "]");
         }
